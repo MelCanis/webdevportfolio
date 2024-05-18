@@ -1,0 +1,96 @@
+html
+    font-size: 16px
+
+=defspec($args, $props, $key) //specify default key when no key is specified
+    @if not index($props, nth($args, 1))
+        #{$key}: nth($args, 1)
+=spec($args, $prop, $key) //specify key with entered value
+    @if index($args, $prop)
+        #{$key}: nth($args, calc(index($args, $prop) + 1))
+=specalias($args, $prop, $key, $aliases) //specify key & alias for value
+    @if index($args, $prop)
+        #{$key}: map-get($aliases, nth($args, calc(index($args, $prop) + 1)))
+=case($args, $prop, $props) //define multiple properties using a single descriptor
+    @if index($args, $prop)
+        @each $key, $value in $props 
+            #{$key}: $value
+=casespec($args, $prop, $keys) //specify multiple keys to take the same entered value
+    @if index($args, $prop)
+        @each $key in $keys
+            #{$key}: nth($args, calc(index($args, $prop) + 1))
+=singular($args, $typepairs) // automatically set a property to the entered value if it matchs the specified type
+    @each $prop in $args
+        @each $key, $type in $typepairs
+            @if type-of($prop) == $type and if(index($args, $prop) != 1, (type-of(nth($args, calc(index($args, $prop) - 1))) != string), true)
+                #{$key}: $prop
+=singularalias($args, $typepairs, $alias)
+=speclist($args, $list) // make multiple spec()'s by entering a list
+    @each $prop, $key in $list
+        +spec($args, $prop, $key)
+=casespeclist($args, $list) //specify multiple keys to take the same entered value
+    @each $prop, $keys in $list
+        @if index($args, $prop)
+            @each $key in $keys
+                #{$key}: nth($args, calc(index($args, $prop) + 1))
+
+
+
+=box($args)
+    +spec($args, w, width)
+    +spec($args, h, height)
+    +spec($args, b, border)
+    +spec($args, r, border-radius)
+    +singular($args, (background: color))
+
+    +casespec($args, wh, (width, height))
+    +spec($args, bt, border-top)
+    +spec($args, bl, border-left)
+    +spec($args, br, border-right)
+    +spec($args, bb, border-bottom)
+    
+    +case($args, fill, (width: 100%, height: 100%))
+    +case($args, circle, (border-radius: 100%))
+    $margin: (m: margin, mt: margin-top, ml: margin-left, mr: margin-right, mb: margin-bottom)
+    $padding: (p: padding, pt: padding-top, pl: padding-left, pr: padding-right, pb: padding-bottom)
+    +speclist($args, $margin)
+    +speclist($args, $padding)
+    $max-min: (mxw: max-width, mnw: min-width, mxh: max-height, mnh: min-height)
+    $max-min-both: (mxwh: (max-width, max-height), mnwh: (min-width, min-height))
+    +speclist($args, $max-min)
+    +casespeclist($args, $max-min-both)
+    +case($args, btr, (border: 1px solid transparent))
+    +case($args, bgtr, (background: transparent))
+
+
+=spc($m, $p: unset)
+    +defspec($m, (t,l,r,b), margin)
+    +spec($m, t, margin-top)
+    +spec($m, l, margin-left)
+    +spec($m, r, margin-right)
+    +spec($m, b, margin-bottom)
+    +defspec($p, (t,l,r,b), padding)
+    +spec($p, t, padding-top)
+    +spec($p, l, padding-left)
+    +spec($p, r, padding-right)
+    +spec($p, b, padding-bottom)
+=flex($args: unset)
+    display: flex
+    $aliases: ( center: center, around: space-around, between: space-between, start: flex-start, end: flex-end, evenly: space-evenly)
+    +specalias($args, j, justify-content, $aliases)
+    +specalias($args, a, align-items, $aliases)
+    +casespec($args, ja, (justify-content, align-items))
+    +case($args, cen, (align-items: center, justify-content: center))
+    +case($args, column, (flex-direction: column))
+    +case($args, wrap, (flex-wrap: wrap))
+    +singular($args, (flex: number))
+
+=font($args)
+    +singular($args, (font-size: number, color: color))
+    +case($args, bold, (font-weight: bold))
+
+=pos($args)
+    $position: (r: relative, a: absolute, f: fixed)
+    $positions: (t: top, l: left, r: right, b: bottom)
+    +defspec($args, (t,l,r,b), position)
+    +speclist($args, $positions)
+    +case($args, center, (position: absolute, top: 50%, left: 50%, transform: translate(-50%, -50%)))

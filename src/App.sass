@@ -1,0 +1,148 @@
+@import handles
+
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+html, body
+    +box(w 100vw h 100vh)
+    +box(#222 fill)
+#root
+    +box(fill)
+    +flex(column)
+    +font(white)
+    
+
+.theygonhireme
+    flex: 1
+    +box(mnh 5rem)
+    text-align: center
+    padding: 1rem
+    +flex(cen)
+    +font(#ffdca0)
+
+h4
+    text-align: center
+    font-weight: 400
+    letter-spacing: .1rem
+    position: relative
+    z-index: 2
+h5
+    padding-bottom: 1rem
+
+.background
+    +box(fill)
+    position: absolute
+    top: 0
+    left: 0
+    object-fit: cover
+    filter: blur(2rem)
+    opacity: .25
+    transform: translate(1.1)
+    animation: fadein2 .5s
+
+@keyframes fadein2
+    0%
+        opacity: 0
+    100%
+        opacity: .25
+        
+
+.myprojects
+    flex: 10
+    +flex(column cen)
+    // +box(h 100rem)
+    position: relative
+    .cont
+        // overflow-x: scroll
+        +flex(wrap)
+        +box(p 2rem pt 1rem pb 3.5rem h max-content)
+        &::-webkit-scrollbar
+            +box(transparent)
+        &::-webkit-scrollbar-thumb
+            +box(#111 r 1rem)
+section
+    +box(mb 3rem)
+.projects
+    // +box(w 100%)
+    +flex(wrap)
+    // gap: 2rem
+.Project
+    background: linear-gradient(-36deg, #222, #111)
+    box-shadow: 0 2rem 5rem #0000001c
+    +box(w 15rem h 20rem b (1px solid transparent) r 1rem p 1rem m .5rem mb 1rem)
+    position: relative
+    &:first-of-type
+        margin-left: 0
+    cursor: pointer
+
+    .span
+        +box(w fit-content p (.25rem .5rem) r 1rem mt .5rem b (1px solid white))
+        position: absolute
+        bottom: 1rem
+        left: 1rem
+        transition: .25s
+    &:hover
+        // +box(b (1px solid white))
+        .theproof
+            opacity:1
+        .span
+            animation: fadein .75s
+            position: absolute
+            bottom: -3rem
+            left: 0
+
+    .theproof
+        position: absolute
+        +pos(center)
+        // display: none
+        opacity: 0
+        +box(fill r 1rem)
+        object-fit: cover
+        transition: .2s
+        // +box(w 100% mnh 100%)
+    h6
+        +box(mb .5rem)
+
+@keyframes fadein
+    0%
+        opacity: 0
+    100%
+        opacity: 1
+
+.theproject
+    +box(p 1rem)
+    position: relative
+    z-index: 2
+    h3
+        cursor: pointer
+    button
+        +box(transparent btr p 1rem)
+        // background: blue
+        +font(white)
+    .images
+        +flex(cen wrap)
+        img
+            +box(w 15rem r 1rem m .5rem)
+    .description
+        +box(mt 1rem)
+
+.butt
+    flex: 1
+    +box(p 2rem)
+    +flex(a center j between)
+    gap: 1rem
+.stuffIdo
+    +box(#ffd140 p (1rem 2rem) r .5rem mxw 40rem)
+    +font(black)
+    font-style: italic
+    +flex(column a start j column)
+.contact
+    letter-spacing: .05rem
+    p
+        border-left: .25rem solid white
+        padding-left: .5rem
+        &:hover
+            border-left: .25rem solid #ffd140
+            font-style: italic
